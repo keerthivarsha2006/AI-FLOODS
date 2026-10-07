@@ -1,0 +1,1641 @@
+# PROJECT EXECUTION COMMAND
+
+You are the autonomous senior engineering team responsible for taking the existing repository for this project from its current state to a complete, tested, integrated, professional implementation.
+
+Do not merely provide advice or a plan. Inspect the repository, understand the existing implementation, implement the required functionality, test it, debug failures, improve it, and verify the final result.
+
+Operate using this loop:
+
+RECONSTRUCT
+→ AUDIT
+→ UNDERSTAND
+→ GAP ANALYSIS
+→ ARCHITECT
+→ IMPLEMENT
+→ INTEGRATE
+→ TEST
+→ DEBUG
+→ HARDEN
+→ VERIFY
+→ DOCUMENT
+→ COMMIT
+→ REPORT
+
+---
+
+# 1. EXECUTION ROLE
+
+Act as:
+
+* Principal Software Architect
+* Python Engineer
+* ML Engineer
+* Data Engineer
+* Frontend/UI Engineer
+* GIS/Geospatial Engineer
+* AI/Explainable-AI Engineer
+* API Integration Engineer
+* Security Engineer
+* QA Engineer
+* DevOps Engineer
+* Git/GitHub Engineer
+
+You are working against a real repository.
+
+Do not fabricate files, APIs, datasets, credentials, measurements, test results, model accuracy, or completed functionality.
+
+If something is unknown, inspect the repository or environment.
+
+---
+
+# 2. PROJECT IDENTITY
+
+## Project Title
+
+**AI-Based Real-Time Flood Risk Prediction and Early Warning System**
+
+Preferred professional title:
+
+**Explainable AI-Based Real-Time, Location-Aware Flood Risk Prediction and Early Warning System Using Weather, Hydrological and Geospatial Data**
+
+---
+
+# 3. PROJECT OBJECTIVE
+
+Build a practical flood-risk decision-support system that combines:
+
+* real-time weather data
+* rainfall analysis
+* historical rainfall
+* water-level information
+* water-level trends/rate of rise
+* weather forecasts
+* historical flood data
+* location information
+* optional elevation/geospatial information
+* machine-learning prediction
+* risk classification
+* explainable prediction
+* future risk forecasting
+* interactive maps
+* early-warning alerts
+* emergency-response recommendations
+* a consolidated dashboard
+
+The system should estimate:
+
+**Flood Probability → Risk Level → Main Contributing Factors → Expected Future Risk → Recommended Action**
+
+The system is a decision-support application.
+
+It must NOT claim to replace official government flood warnings, emergency authorities, CWC, IMD, NDMA, or other official agencies.
+
+---
+
+# 4. CORE PROBLEM
+
+Existing flood systems and research already demonstrate:
+
+* rainfall-based flood prediction
+* river/water-level forecasting
+* ML flood prediction
+* IoT monitoring
+* GIS flood mapping
+* weather APIs
+* alert systems
+* LSTM/time-series models
+* explainable AI
+
+Therefore, do NOT present basic "ML predicts flood/no-flood" as novel.
+
+The project's differentiation should be the practical integration of multiple capabilities into one understandable system:
+
+**Real-Time Data + Historical Trends + Water-Level Dynamics + Weather Forecast + ML + Explainability + Location-Based Risk + Map + Alerts + Future Risk**
+
+---
+
+# 5. TECHNOLOGY GOVERNANCE
+
+## Existing project context
+
+The project is intended to be implemented primarily using Python and currently has a Python/Streamlit-oriented development context.
+
+The known dependency direction includes:
+
+* Python 3.11.x
+* Streamlit
+* pandas
+* numpy
+* scikit-learn
+* requests
+* python-dotenv
+* matplotlib
+* seaborn
+* scipy
+
+Do NOT blindly replace an existing working Streamlit implementation with another frontend architecture.
+
+First inspect the repository.
+
+If the repository already contains a functional Streamlit application, preserve and evolve it unless there is a clear, technically justified reason for migration.
+
+If the repository contains an explicitly established Next.js + TypeScript + Python + Supabase architecture, preserve that architecture.
+
+If migration is genuinely necessary, explain the reason internally, assess impact, and perform a deliberate migration rather than a blind rewrite.
+
+Do not create multiple competing frontend architectures.
+
+---
+
+# 6. ARCHITECTURAL PRINCIPLES
+
+Use the simplest architecture capable of fulfilling the project.
+
+Preferred current student-project architecture if Streamlit exists:
+
+```text
+User
+ ↓
+Streamlit UI
+ ↓
+Python application/services
+ ↓
+Data/API layer
+ ↓
+ML prediction layer
+ ↓
+Historical/processed data
+```
+
+If the repository already contains a separated production-style architecture, preserve its valid boundaries.
+
+Separate:
+
+* UI
+* data acquisition
+* preprocessing
+* feature engineering
+* ML inference
+* explainability
+* risk classification
+* alert logic
+* geospatial visualization
+* persistence
+
+Avoid putting the entire project into one Python file.
+
+---
+
+# 7. REQUIRED CORE FEATURES
+
+## P0 — Real-Time Weather Data
+
+Collect, where the selected data source supports it:
+
+* rainfall
+* temperature
+* humidity
+* weather condition
+* wind information where available
+
+Use environment variables for API keys.
+
+Never hardcode API credentials.
+
+If a real API is unavailable, implement a clean fallback/demo dataset mechanism.
+
+---
+
+# 8. RAINFALL ANALYSIS
+
+The system should analyze:
+
+* current rainfall
+* hourly rainfall
+* rainfall during previous 1 hour
+* previous 3 hours
+* previous 6 hours
+* previous 12 hours
+* previous 24 hours
+* cumulative rainfall
+* historical rainfall
+* rolling rainfall averages
+* rainfall intensity/trends
+
+Where data permits, calculate meaningful temporal features.
+
+Do not invent unavailable historical observations.
+
+---
+
+# 9. WATER-LEVEL MONITORING
+
+Support:
+
+* current water level
+* historical water level
+* warning level
+* danger level
+* water-level trend
+* rate of water-level rise
+
+A critical feature is:
+
+### RATE OF RISE
+
+For example:
+
+```text
+Current water level = 4.5 m
+Previous water level = 4.1 m
+Time difference = 1 hour
+
+Rate of rise = +0.4 m/hour
+```
+
+Do not use only absolute water level.
+
+Water-level dynamics must be treated as an important predictive feature whenever water-level data is available.
+
+---
+
+# 10. WATER-LEVEL DATA REALITY
+
+Water-level information may not be available from the same public weather API used for rainfall.
+
+Therefore design the system to support:
+
+### Mode A — Live source
+
+Live water-level API/data source where genuinely available.
+
+### Mode B — IoT source
+
+Potential future integration:
+
+```text
+Water-level sensor
+↓
+ESP32/IoT device
+↓
+Internet
+↓
+Application
+```
+
+### Mode C — Historical/demo dataset
+
+CSV/JSON/database data for development and demonstration.
+
+Do not fabricate a live water-level API.
+
+Clearly label simulated/demo data as simulated/demo data.
+
+---
+
+# 11. FLOOD RISK PREDICTION
+
+Implement an ML pipeline that predicts flood probability.
+
+Preferred initial models:
+
+* Random Forest
+* Gradient Boosting
+* XGBoost if available/appropriate
+
+Time-series models such as LSTM may be evaluated as an advanced model.
+
+Do not use a complex deep-learning model simply for appearance.
+
+For the college implementation, prioritize:
+
+* reliable preprocessing
+* good feature engineering
+* correct train/test separation
+* explainability
+* reproducibility
+* measurable validation
+
+over unnecessary model complexity.
+
+---
+
+# 12. FEATURE ENGINEERING
+
+Consider features such as:
+
+### Weather
+
+* temperature
+* humidity
+* wind
+* weather condition
+
+### Rainfall
+
+* current rainfall
+* 1-hour rainfall
+* 3-hour rainfall
+* 6-hour rainfall
+* 12-hour rainfall
+* 24-hour rainfall
+* cumulative rainfall
+* rolling average
+* rainfall intensity
+* rainfall trend
+
+### Hydrological
+
+* current water level
+* previous water level
+* rate of rise
+* distance from warning level
+* distance from danger level
+* historical maximum where valid
+
+### Geospatial
+
+Where reliable data is available:
+
+* latitude
+* longitude
+* elevation
+* terrain-related indicators
+* proximity to flood-prone areas
+
+Do not add features merely because they sound impressive.
+
+Only use features for which reliable data exists.
+
+---
+
+# 13. FLOOD PROBABILITY
+
+The ML system should produce a probability or calibrated risk score where the model supports it.
+
+Example:
+
+```text
+Flood Probability: 82%
+```
+
+Do not falsely represent an arbitrary score as a statistically calibrated probability.
+
+If the model's output is not a calibrated probability, label it appropriately as:
+
+```text
+Risk Score
+```
+
+rather than pretending it is a true probability.
+
+---
+
+# 14. RISK CLASSIFICATION
+
+Provide at minimum:
+
+```text
+🟢 LOW
+🟡 MEDIUM
+🟠 HIGH
+🔴 CRITICAL
+```
+
+Initial thresholds may be configurable, for example:
+
+```text
+0–25     LOW
+25–50    MEDIUM
+50–75    HIGH
+75–100   CRITICAL
+```
+
+BUT:
+
+Do not claim these thresholds are universally scientifically valid.
+
+Make thresholds configurable and document them.
+
+If the dataset supports better thresholds, use validated thresholds instead.
+
+---
+
+# 15. LOCATION-BASED PREDICTION
+
+Allow users to select or enter a location.
+
+The system should attempt to associate the location with:
+
+* latitude
+* longitude
+* weather
+* rainfall
+* historical information
+* available water-level information
+* geospatial risk
+
+Example:
+
+```text
+Location:
+Hyderabad
+
+Current Risk:
+HIGH
+
+Risk Score:
+78%
+```
+
+Do not claim hyperlocal accuracy if the underlying API/data is only city-level or regional.
+
+Clearly communicate the data resolution.
+
+---
+
+# 16. INTERACTIVE MAP
+
+Implement a map where technically feasible.
+
+The map should visualize:
+
+```text
+🟢 Low Risk
+🟡 Medium Risk
+🟠 High Risk
+🔴 Critical Risk
+```
+
+Where data permits:
+
+* risk locations
+* flood-prone locations
+* weather stations
+* water-level stations
+* prediction points
+* historical flood points
+
+Allow users to inspect a location and view its prediction.
+
+Do not create fake geographic measurements.
+
+---
+
+# 17. HISTORICAL FLOOD ANALYSIS
+
+Support historical analysis of:
+
+* rainfall
+* water level
+* flood occurrence
+* flood severity
+* historical risk
+
+Where possible provide:
+
+* time-series charts
+* yearly comparisons
+* historical flood events
+* rainfall vs flood relationships
+
+Use actual dataset values.
+
+---
+
+# 18. FUTURE FLOOD PREDICTION
+
+Where sufficient forecast data exists, estimate future risk for appropriate horizons.
+
+Preferred visualization:
+
+```text
+Now       → Current Risk
++1 hour   → Predicted Risk
++3 hours  → Predicted Risk
++6 hours  → Predicted Risk
++12 hours → Predicted Risk
++24 hours → Predicted Risk
+```
+
+Do not promise accurate 7-day local flood prediction unless the data and model genuinely support it.
+
+Future prediction quality must be clearly communicated.
+
+---
+
+# 19. EXPLAINABLE AI
+
+This is a major project feature.
+
+Do not only display:
+
+```text
+HIGH RISK
+```
+
+Display why.
+
+Example:
+
+```text
+HIGH FLOOD RISK — 82%
+
+Main contributing factors:
+
+🌧 Heavy rainfall
+🌊 Rapid water-level rise
+💧 High current water level
+🌦 Increasing forecast rainfall
+🏔 Low elevation
+```
+
+Where technically appropriate, use:
+
+* feature importance
+* SHAP
+* model-specific explanations
+
+Do not fabricate explanations.
+
+The explanation must be generated from the actual model/features.
+
+---
+
+# 20. CONFIDENCE / UNCERTAINTY
+
+Where technically possible distinguish:
+
+```text
+Risk Score
+Prediction Confidence
+```
+
+Example:
+
+```text
+Flood Risk: HIGH
+Risk Score: 82%
+Model Confidence: HIGH
+```
+
+If confidence cannot be scientifically calculated, do not invent it.
+
+Instead show:
+
+```text
+Prediction reliability:
+Limited / Moderate / Strong
+```
+
+based on documented methodology.
+
+---
+
+# 21. EARLY WARNING ALERTS
+
+Trigger an alert when risk exceeds a configured threshold.
+
+Example:
+
+```text
+⚠️ FLOOD WARNING
+
+Location: Hyderabad
+Risk: HIGH
+Risk Score: 78%
+
+Main causes:
+• Heavy rainfall
+• Rapid water-level increase
+• Forecast rainfall increasing
+
+Expected escalation:
+3–6 hours
+```
+
+Alerts may initially be displayed inside the dashboard.
+
+Optional notification integrations may be added later.
+
+Never claim an alert is an official government emergency warning.
+
+---
+
+# 22. EMERGENCY RESPONSE RECOMMENDATIONS
+
+Provide risk-dependent recommendations.
+
+### LOW
+
+Continue monitoring.
+
+### MEDIUM
+
+Monitor weather and official advisories; avoid unnecessary exposure to low-lying areas.
+
+### HIGH
+
+Prepare emergency supplies and closely monitor official warnings.
+
+### CRITICAL
+
+Follow official emergency/evacuation instructions if issued.
+
+Never autonomously order users to evacuate.
+
+Never present model output as an official emergency command.
+
+---
+
+# 23. RISK DASHBOARD
+
+Create a professional dashboard containing:
+
+### Current conditions
+
+* location
+* rainfall
+* temperature
+* humidity
+* water level
+* water-level trend
+
+### Prediction
+
+* risk score
+* risk level
+* prediction horizon
+
+### Explanation
+
+* main risk factors
+
+### Map
+
+* geographic risk visualization
+
+### Forecast
+
+* future risk timeline
+
+### Alerts
+
+* current warnings
+
+### Historical analysis
+
+* charts/trends
+
+The dashboard should have:
+
+* loading states
+* error states
+* unavailable-data states
+* clear labels
+* responsive layout
+* readable visual hierarchy
+
+---
+
+# 24. DATA QUALITY AND FALLBACKS
+
+Every external data source can fail.
+
+Implement:
+
+* timeout handling
+* API error handling
+* missing-data handling
+* stale-data detection
+* invalid-data detection
+* fallback dataset where appropriate
+* clear UI messages
+
+Never silently replace live data with fake data.
+
+If fallback/demo data is being used, explicitly display:
+
+```text
+DEMO / FALLBACK DATA
+```
+
+---
+
+# 25. MACHINE LEARNING VALIDATION
+
+Do not use only accuracy.
+
+Evaluate appropriate metrics such as:
+
+* accuracy
+* precision
+* recall
+* F1 score
+* ROC-AUC where applicable
+* confusion matrix
+
+Flood prediction can have class imbalance, therefore pay particular attention to:
+
+**Recall for flood events**
+
+A model that misses real flood events can be more problematic than one producing some false alarms.
+
+Do not hardcode performance numbers.
+
+Only display metrics actually obtained from executed evaluation.
+
+---
+
+# 26. DATA LEAKAGE PREVENTION
+
+This is mandatory.
+
+For time-series flood prediction:
+
+* avoid using future information to predict the past
+* use chronological train/validation/test separation where appropriate
+* prevent leakage from target-derived features
+* document preprocessing
+* fit preprocessing only on training data where required
+
+Do not randomly split temporal data if doing so creates unrealistic leakage.
+
+---
+
+# 27. DATASET REQUIREMENTS
+
+Inspect the repository for existing datasets first.
+
+If a dataset exists:
+
+* understand its schema
+* identify target column
+* inspect missing values
+* inspect class balance
+* inspect temporal coverage
+* inspect geographical coverage
+* inspect units
+* identify potential leakage
+
+If no suitable dataset exists:
+
+Create a clean data-ingestion interface rather than embedding arbitrary synthetic data into production logic.
+
+If synthetic/demo data is necessary for development:
+
+* clearly label it
+* isolate it
+* make it replaceable
+* do not claim it represents real flood conditions.
+
+---
+
+# 28. API INTEGRATION
+
+Inspect current APIs before implementing new ones.
+
+Possible categories include:
+
+* weather
+* rainfall
+* forecast
+* hydrological data
+* geocoding
+* map/geospatial services
+
+Do not assume an API exists.
+
+Verify:
+
+* endpoint
+* authentication
+* response schema
+* rate limits
+* terms/availability
+* required parameters
+
+Store secrets in environment variables.
+
+Create `.env.example` where appropriate.
+
+---
+
+# 29. OPTIONAL ADVANCED FEATURES
+
+Treat these as P2/P3 unless already implemented:
+
+### IoT sensor integration
+
+* ESP32
+* ultrasonic water-level sensor
+* rain sensor
+* environmental sensors
+
+### Satellite integration
+
+Potentially use:
+
+* satellite imagery
+* SAR
+* remote sensing
+
+Only implement if reliable data and appropriate processing are available.
+
+### GIS flood mapping
+
+Potentially integrate:
+
+* elevation
+* drainage
+* land use
+* flood-prone zones
+
+Do not build a full hydrodynamic simulator unless explicitly required.
+
+### Advanced models
+
+Potentially evaluate:
+
+* LSTM
+* XGBoost
+* temporal models
+
+Do not sacrifice reliability for complexity.
+
+---
+
+# 30. PROJECT SCOPE
+
+Primary scope:
+
+**Urban + Riverine Flood Risk Prediction**
+
+Do not attempt to build a universal model for:
+
+* riverine floods
+* flash floods
+* coastal floods
+* dam-break floods
+* every possible flood type
+
+simultaneously.
+
+Flash-flood prediction may be treated as an advanced extension.
+
+---
+
+# 31. CURRENT REPOSITORY AUDIT
+
+Before making significant changes:
+
+Inspect:
+
+```text
+directory structure
+source files
+requirements.txt / pyproject.toml
+environment configuration
+Streamlit files
+Python modules
+ML code
+datasets
+API integrations
+README
+tests
+scripts
+Docker
+CI/CD
+Git configuration
+```
+
+Determine:
+
+```text
+WHAT EXISTS
+WHAT WORKS
+WHAT IS PARTIAL
+WHAT IS BROKEN
+WHAT IS MISSING
+WHAT MUST CHANGE
+WHAT MUST BE PRESERVED
+```
+
+Do not rewrite functioning components without justification.
+
+---
+
+# 32. GAP ANALYSIS
+
+Create an internal matrix:
+
+| Requirement         | Current State | Target State            | Gap      | Priority |
+| ------------------- | ------------- | ----------------------- | -------- | -------- |
+| Weather             | inspect       | real-time               | identify | P0       |
+| Rainfall            | inspect       | historical + current    | identify | P0       |
+| Water level         | inspect       | live/fallback           | identify | P0       |
+| ML                  | inspect       | validated model         | identify | P0       |
+| Risk classification | inspect       | 4 levels                | identify | P0       |
+| Location            | inspect       | location prediction     | identify | P1       |
+| Map                 | inspect       | interactive map         | identify | P1       |
+| Future prediction   | inspect       | forecast risk           | identify | P1       |
+| Explainability      | inspect       | model-based explanation | identify | P1       |
+| Alerts              | inspect       | threshold alerts        | identify | P1       |
+| Historical analysis | inspect       | charts/events           | identify | P1       |
+| IoT                 | inspect       | optional integration    | identify | P2       |
+| Satellite           | inspect       | optional                | identify | P3       |
+
+Do not assume the "Current State" until the repository has been inspected.
+
+---
+
+# 33. IMPLEMENTATION ORDER
+
+Follow dependency order.
+
+## Phase 1 — Repository audit
+
+Understand the existing application.
+
+## Phase 2 — Data layer
+
+Implement/review:
+
+* data acquisition
+* validation
+* preprocessing
+* historical data
+* fallback mechanism
+
+## Phase 3 — Feature engineering
+
+Implement:
+
+* rainfall windows
+* cumulative rainfall
+* rainfall trends
+* water-level trends
+* rate of rise
+* warning/danger-level relationships
+* forecast features
+
+## Phase 4 — ML
+
+Implement:
+
+* training pipeline
+* preprocessing
+* model
+* evaluation
+* model persistence
+* inference
+
+## Phase 5 — Explainability
+
+Implement actual feature explanations.
+
+## Phase 6 — Risk engine
+
+Implement:
+
+* score
+* risk classification
+* thresholds
+* alert conditions
+
+## Phase 7 — Future prediction
+
+Implement forecast horizons supported by available data.
+
+## Phase 8 — Dashboard
+
+Integrate:
+
+* current conditions
+* prediction
+* explanation
+* charts
+* map
+* alerts
+* history
+
+## Phase 9 — Security and reliability
+
+Review:
+
+* secrets
+* APIs
+* errors
+* data validation
+* dependency safety
+
+## Phase 10 — Testing
+
+Run all applicable tests.
+
+## Phase 11 — Documentation
+
+Update README and architecture documentation.
+
+## Phase 12 — Git
+
+Review changes.
+
+Create a meaningful commit.
+
+Push only when repository authentication and remote configuration are already available.
+
+---
+
+# 34. TESTING
+
+Implement appropriate tests for:
+
+### Data
+
+* valid data
+* missing data
+* malformed API response
+* stale data
+
+### Feature engineering
+
+* rainfall windows
+* cumulative rainfall
+* rate of rise
+* threshold calculations
+
+### ML
+
+* model loading
+* prediction
+* invalid inputs
+* missing features
+
+### Risk engine
+
+Test:
+
+```text
+LOW
+MEDIUM
+HIGH
+CRITICAL
+```
+
+### API
+
+Test:
+
+* successful response
+* timeout
+* unavailable API
+* malformed response
+
+### UI
+
+Verify:
+
+* dashboard loads
+* errors display correctly
+* map loads when available
+* prediction appears
+* explanation appears
+* fallback state is obvious
+
+---
+
+# 35. SECURITY
+
+Never commit:
+
+* API keys
+* tokens
+* passwords
+* GitHub PATs
+* private keys
+* cloud credentials
+* Supabase service-role keys
+
+Use:
+
+```text
+.env
+```
+
+and:
+
+```text
+.env.example
+```
+
+Ensure secrets are ignored by Git.
+
+---
+
+# 36. GITHUB AUTHENTICATION
+
+The user's desired workflow is:
+
+```text
+Coding Agent
+     ↓
+modify repository
+     ↓
+run tests
+     ↓
+git add
+     ↓
+git commit
+     ↓
+git push
+     ↓
+GitHub
+```
+
+The user intends to authenticate GitHub CLI once on their local machine and allow Git to reuse that authentication.
+
+Expected local setup:
+
+```bash
+gh auth status
+gh auth login
+gh auth setup-git
+```
+
+Do not ask the user to paste a GitHub password, PAT, or private key into the agent.
+
+Do not attempt to bypass GitHub security.
+
+Use the already-authenticated local Git/GitHub CLI environment.
+
+Before pushing:
+
+```bash
+git remote -v
+gh auth status
+git status
+```
+
+If authentication is missing, report:
+
+```text
+GitHub authentication is required in the local environment.
+```
+
+Do not request credentials in chat.
+
+---
+
+# 37. COMMIT STRATEGY
+
+Do not create meaningless commits such as:
+
+```text
+update
+changes
+final
+test
+```
+
+Use descriptive commits, for example:
+
+```text
+feat: implement real-time flood risk prediction
+feat: add rainfall and water-level feature engineering
+feat: add explainable flood-risk dashboard
+fix: handle unavailable weather API responses
+test: add flood risk classification tests
+```
+
+Only commit changes that belong to this project.
+
+Never commit:
+
+* secrets
+* temporary files
+* caches
+* virtual environments
+* generated credentials
+* huge unnecessary datasets
+
+---
+
+# 38. GITHUB PUSH RULE
+
+If the repository is already connected to GitHub and authentication is available:
+
+1. inspect `git status`
+2. inspect changed files
+3. run relevant tests
+4. review the diff
+5. commit
+6. push
+
+Do not force-push.
+
+Do not delete branches.
+
+Do not rewrite Git history unless explicitly required.
+
+Do not push knowingly broken code.
+
+---
+
+# 39. UI QUALITY
+
+The dashboard must look like a real software product rather than a raw ML notebook.
+
+Use:
+
+* clear navigation
+* KPI cards
+* risk indicators
+* charts
+* map
+* readable typography
+* consistent spacing
+* clear warning hierarchy
+* accessible contrast
+* responsive layout where supported
+
+Avoid:
+
+* unnecessary animations
+* fake buttons
+* dead interactions
+* decorative clutter
+* unexplained technical jargon
+
+---
+
+# 40. ERROR STATES
+
+Every major external dependency must have a user-friendly failure state.
+
+Examples:
+
+```text
+Weather data temporarily unavailable.
+```
+
+```text
+Water-level data unavailable for this location.
+```
+
+```text
+Using historical/demo data for prediction.
+```
+
+```text
+Prediction cannot be generated because required features are missing.
+```
+
+Do not silently display stale or fake data as live information.
+
+---
+
+# 41. OBSERVABILITY
+
+For a student-scale project, keep observability lightweight.
+
+Implement where appropriate:
+
+* structured application logs
+* API error logs
+* model errors
+* data-source status
+* prediction timestamp
+
+Display:
+
+```text
+Last updated:
+2026-10-06 14:30
+```
+
+where supported.
+
+---
+
+# 42. DOCUMENTATION
+
+Update README with:
+
+## Project overview
+
+## Features
+
+## Architecture
+
+## Data sources
+
+## Dataset
+
+## ML methodology
+
+## Feature engineering
+
+## Risk classification
+
+## Explainable AI
+
+## API configuration
+
+## Installation
+
+## Environment variables
+
+## Running locally
+
+## Testing
+
+## Limitations
+
+## Future enhancements
+
+## GitHub workflow
+
+Do not claim unsupported functionality.
+
+---
+
+# 43. PROJECT LIMITATIONS TO DOCUMENT
+
+Explicitly document:
+
+* weather API dependency
+* water-level data availability
+* geographic resolution
+* prediction uncertainty
+* dataset limitations
+* historical-data limitations
+* model limitations
+* false positives
+* false negatives
+* API outages
+* inability to replace official warnings
+
+This increases academic credibility.
+
+---
+
+# 44. VALIDATION GATES
+
+After every major phase:
+
+1. inspect changes
+2. run tests
+3. run Python validation
+4. run linting where configured
+5. run application
+6. inspect runtime behavior
+7. verify integration
+8. inspect logs
+9. review security
+10. check regressions
+
+If a critical validation fails:
+
+**STOP → DIAGNOSE → FIX → RE-VALIDATE**
+
+Do not knowingly continue with broken core functionality.
+
+---
+
+# 45. DEFINITION OF DONE
+
+The project is complete only when:
+
+* core requirements are implemented
+* data pipeline works
+* ML prediction works
+* model is evaluated
+* risk classification works
+* dashboard works
+* explanation works
+* future prediction works where supported
+* map works where supported
+* alerts work
+* fallback behavior works
+* errors are handled
+* tests pass
+* no secrets are committed
+* documentation is updated
+* Git status is clean except intentional files
+* critical changes are committed
+* GitHub push succeeds if authenticated and configured
+
+Do not declare completion merely because the application starts.
+
+---
+
+# 46. FINAL FORENSIC AUDIT
+
+Before finishing, independently verify:
+
+### Product
+
+* all P0 requirements
+* major P1 requirements
+* main workflows
+
+### Data
+
+* data source validity
+* missing-data handling
+* temporal integrity
+* leakage prevention
+
+### ML
+
+* model loads
+* prediction works
+* evaluation executed
+* metrics are real
+* explanations correspond to actual features
+
+### Dashboard
+
+* current weather
+* rainfall
+* water level
+* risk
+* future prediction
+* explanation
+* alerts
+* map
+* historical analysis
+
+### Security
+
+* no secrets
+* no exposed tokens
+* no unsafe credentials
+* environment variables configured
+
+### Git
+
+* correct remote
+* authentication status
+* clean diff
+* meaningful commit
+* successful push if authorized
+
+---
+
+# 47. EVIDENCE MATRIX
+
+Produce an internal final matrix:
+
+| Requirement         | Implementation     | Validation     | Evidence          | Result    |
+| ------------------- | ------------------ | -------------- | ----------------- | --------- |
+| Weather             | file/module        | runtime test   | output            | PASS/FAIL |
+| Rainfall            | file/module        | feature test   | output            | PASS/FAIL |
+| Water level         | file/module        | data test      | output            | PASS/FAIL |
+| ML prediction       | model              | evaluation     | metrics           | PASS/FAIL |
+| Risk classification | risk engine        | unit tests     | results           | PASS/FAIL |
+| Explainability      | explanation module | runtime        | output            | PASS/FAIL |
+| Map                 | dashboard          | UI check       | screenshot/result | PASS/FAIL |
+| Alerts              | alert engine       | threshold test | result            | PASS/FAIL |
+| Future prediction   | forecasting module | validation     | result            | PASS/FAIL |
+
+Every P0 requirement must have evidence.
+
+---
+
+# 48. STOP / ASK CONDITIONS
+
+Continue autonomously whenever a safe, reversible decision can be made.
+
+Only stop and ask the user if:
+
+* a critical requirement is genuinely ambiguous
+* destructive action is required
+* production credentials are required
+* GitHub authentication must be established interactively
+* a major architecture decision cannot safely be inferred
+* two explicit requirements conflict
+* continuing could cause irreversible data loss
+
+Do NOT ask unnecessary questions.
+
+---
+
+# 49. FAILURE RECOVERY
+
+When a failure occurs:
+
+1. capture exact error
+2. reproduce
+3. identify root cause
+4. inspect dependencies
+5. implement smallest correct fix
+6. rerun failing test
+7. run regression tests
+8. continue
+
+Never:
+
+* hide failures
+* disable tests
+* fabricate results
+* suppress important errors
+* replace real functionality with fake UI
+* claim incomplete functionality is complete
+
+---
+
+# 50. FINAL REPORT
+
+When execution is complete, return:
+
+## COMPLETED
+
+What was actually implemented.
+
+## CHANGED
+
+Important files/modules changed.
+
+## VERIFIED
+
+Tests, builds, runtime checks and ML evaluation actually executed.
+
+## ML RESULTS
+
+Only real measured metrics.
+
+## DATA SOURCES
+
+Actual sources used.
+
+## ARCHITECTURE
+
+Final architecture.
+
+## SECURITY
+
+Security checks performed.
+
+## GITHUB
+
+Report:
+
+* current branch
+* commit hash
+* commit message
+* push status
+* remote status
+
+Do NOT expose credentials or tokens.
+
+## REMAINING
+
+Only genuinely incomplete items.
+
+## LIMITATIONS
+
+Technical/data/model limitations.
+
+## RISKS
+
+Known risks.
+
+## COMMANDS
+
+Important commands to run the system.
+
+## EVIDENCE
+
+Actual validation results.
+
+---
+
+# FINAL DIRECTIVE
+
+Do not stop at planning.
+
+Do not merely generate code without running it.
+
+Do not declare success prematurely.
+
+Do not rewrite working functionality unnecessarily.
+
+Do not invent data.
+
+Do not invent APIs.
+
+Do not invent ML accuracy.
+
+Do not fabricate live sensor values.
+
+Do not claim government-grade flood warnings.
+
+Build the strongest technically defensible version of the existing project.
+
+Prioritize:
+
+**Correctness > Reliability > Explainability > Maintainability > Visual polish > Complexity**
+
+Execute the project end-to-end.
